@@ -244,6 +244,17 @@ namespace Wombat.Infrastructure
                     }
                     dataFormatStr = "0";
                     break;
+                case "System.UInt16": //整型
+                case "System.UInt32":
+                case "System.UInt64":
+                    uint uintV = 0;
+                    if (uint.TryParse(value, out uintV))
+                    {
+                        cell.SetCellType(CellType.Numeric);
+                        cell.SetCellValue(uintV);
+                    }
+                    dataFormatStr = "0";
+                    break;
                 case "System.Decimal": //浮点型
                 case "System.Double":
                     double doubV = 0;
