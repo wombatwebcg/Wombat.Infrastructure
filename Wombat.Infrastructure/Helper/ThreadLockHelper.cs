@@ -1017,6 +1017,12 @@ namespace Wombat.Infrastructure
             m_waiterLock.Set( );
         }
 
+        /// <summary>
+        /// 获取当前锁是否在等待当中
+        /// </summary>
+        public bool IsWaitting => m_waiters != 0;
+
+
     }
 
 #endif
