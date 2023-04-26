@@ -51,16 +51,6 @@ namespace Wombat.Infrastructure
             return string.Join(",", textList);
         }
 
-        /// <summary>
-        /// 多选枚举转为对应文本,逗号隔开
-        /// </summary>
-        /// <param name="values">多个值逗号隔开</param>
-        /// <param name="enumType">枚举类型</param>
-        /// <returns></returns>
-        public static string ToMultipleText(string values, Type enumType)
-        {
-            return ToMultipleText(values?.Split(',')?.Select(x => x.ToInt())?.ToList(), enumType);
-        }
 
 
         public static List<T> ToList<T>()
