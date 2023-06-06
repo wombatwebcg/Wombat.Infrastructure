@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Wombat.ObjectConversionExtention;
 
 namespace Wombat.Infrastructure
 {
@@ -421,7 +420,7 @@ namespace Wombat.Infrastructure
         public string GetUrl(int index)
         {
             int offset = 1 + index * (entityLength + 1)+8;
-            return Extention.ToString(Read(200, offset),System.Text.Encoding.UTF8).Trim();
+            return Read(200, offset).ToString(System.Text.Encoding.UTF8).Trim();
         }
 
         /// <summary>
@@ -443,7 +442,7 @@ namespace Wombat.Infrastructure
         public string GetState(int index)
         {
             int offset = 1 + index * (entityLength + 1) + entityLength-2;
-            return Extention.ToString(Read(1, offset), System.Text.Encoding.UTF8);
+            return Read(1, offset).ToString(System.Text.Encoding.UTF8);
         }
 
         /// <summary>
@@ -470,8 +469,7 @@ namespace Wombat.Infrastructure
 
         public T GetEntity(int index)
         {
-            string str = Extention.ToString(Read(entityLength, index * entityLength), System.Text.Encoding.UTF8);
-            return str.ToEntity<T>();
+            return Read(entityLength, index * entityLength).ToString(System.Text.Encoding.UTF8).ToEntity<T>();
         }
     }
 }
