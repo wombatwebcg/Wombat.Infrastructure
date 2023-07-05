@@ -22,13 +22,13 @@ namespace Wombat.Infrastructure
         {
 
             LogHelper.Build();
-            //register configuration
-            IConfigurationBuilder cfgBuilder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", optional: true, reloadOnChange:true)                             
-                ;
-            IConfiguration configuration = cfgBuilder.Build();
+            ////register configuration
+            //IConfigurationBuilder cfgBuilder = new ConfigurationBuilder()
+            //    .SetBasePath(Directory.GetCurrentDirectory())
+            //    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            //    //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", optional: true, reloadOnChange:true)                             
+            //    ;
+            IConfiguration configuration = services.InjectionAppSettings();
             var appConfiguration = new SystemConnectionConfiguration(configuration);
             services.AddSingleton(configuration);
             if (otherConfiguration != null)
@@ -49,7 +49,7 @@ namespace Wombat.Infrastructure
 
             services.AddOptions();
 
-            services.DependencyInjectionService(assemblyNames);
+            services.InjectionService(assemblyNames);
 
             services.BuildServiceProvider().UseServiceProvider();
 
