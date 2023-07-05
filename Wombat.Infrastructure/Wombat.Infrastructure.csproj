@@ -23,12 +23,9 @@
 		<PackageReference Include="Quartz" Version="3.6.2" />
 		<PackageReference Include="System.IO.Ports" Version="6.0.0" />
 		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />
-		<PackageReference Include="Autofac.Annotation" Version="4.0.4" />
-		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
 		<PackageReference Include="NPOI" Version="2.6.0" />
 		<PackageReference Include="Serilog" Version="2.12.0" />
@@ -41,6 +38,9 @@
 		<PackageReference Include="FreeSql" Version="3.2.692" />
 		<PackageReference Include="FreeSql.DbContext" Version="3.2.692" />
 		<PackageReference Include="Wombat.Extensions.ObjectConversion" Version="1.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Wombat\Wombat\Wombat.Core\Wombat.Core.csproj" />
 	</ItemGroup>
 
 </Project>

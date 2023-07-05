@@ -25,12 +25,12 @@ namespace Wombat.Infrastructure
 
         public static Task<IEnumerable<Database>> GetDBAsync()
         {
-            return ServiceProvider.GetService<InfluxDbClient>().Database.GetDatabasesAsync();
+            return _influxDbClient.Database.GetDatabasesAsync();
         }
 
         public static Task CreateDBAsync(string db)
         {
-            return ServiceProvider.GetService<InfluxDbClient>().Database.CreateDatabaseAsync(db);
+            return _influxDbClient.Database.CreateDatabaseAsync(db);
         }
 
 
@@ -42,13 +42,13 @@ namespace Wombat.Infrastructure
             pointToWrite.Tags = tags;
             pointToWrite.Fields = fields;
             pointToWrite.Timestamp = DateTime.Now;
-            var client = ServiceProvider.GetService<InfluxDbClient>().Client;
+            var client = _influxDbClient.Client;
             return client.WriteAsync(pointToWrite, SystemConnectionConfiguration.InfluxDbConfiguration().DbName,precision:"ms");
         }
 
         public static Task QueryAsync(string serieName, string startTime = "now()-24H", string endTime = "now() - 5M")
         {
-            var client = ServiceProvider.GetService<InfluxDbClient>().Client;
+            var client = _influxDbClient.Client;
 
             //where time >= '2022-02-15T00:00:00Z' and time< '2022-02-16T23:59:59Z'
             var query = $"SELECT * FROM \"{serieName}\" WHERE time >=\"{startTime}\" and time <\"{endTime}\"";
@@ -57,7 +57,7 @@ namespace Wombat.Infrastructure
 
         public static Task QueryAsync(string serieName)
         {
-            var client = ServiceProvider.GetService<InfluxDbClient>().Client;
+            var client = _influxDbClient.Client;
 
             //where time >= '2022-02-15T00:00:00Z' and time< '2022-02-16T23:59:59Z'
             var query = $"SELECT * FROM \"{serieName}\" WHERE time >= 0";
@@ -66,7 +66,7 @@ namespace Wombat.Infrastructure
 
         public static Task<IEnumerable<Serie>> QueryAllAsync(string measurementName)
         {
-            var client = ServiceProvider.GetService<InfluxDbClient>().Client;
+            var client = _influxDbClient.Client;
 
             //where time >= '2022-02-15T00:00:00Z' and time< '2022-02-16T23:59:59Z'
             var query = $"SELECT * FROM \"{measurementName}\" WHERE time >= 0";
@@ -75,14 +75,14 @@ namespace Wombat.Infrastructure
 
         public static Task<IEnumerable<SerieSet>> QuerySerieAsync(string measurementName = null, IEnumerable<string> filters = null)
         {
-            var client = ServiceProvider.GetService<InfluxDbClient>();
+            var client = _influxDbClient;
 
             return client.Serie.GetSeriesAsync(SystemConnectionConfiguration.InfluxDbConfiguration().DbName, measurementName, filters);
         }
 
         public static Task<IEnumerable<Measurement>> GetMeasurementsAsync()
         {
-            var client = ServiceProvider.GetService<InfluxDbClient>();
+            var client = _influxDbClient;
             return client.Serie.GetMeasurementsAsync(SystemConnectionConfiguration.InfluxDbConfiguration().DbName);
 
         }
@@ -90,19 +90,19 @@ namespace Wombat.Infrastructure
 
         public static Task<IEnumerable<FieldKey>> GetFieldKeysAsync(string measurementName)
         {
-            var client = ServiceProvider.GetService<InfluxDbClient>();
+            var client = _influxDbClient;
             return client.Serie.GetFieldKeysAsync(SystemConnectionConfiguration.InfluxDbConfiguration().DbName, measurementName);
 
         }
         public static Task<IEnumerable<string>> GetTagKeysAsync( string measurementName)
         {
-            var client = ServiceProvider.GetService<InfluxDbClient>();
+            var client = _influxDbClient;
             return client.Serie.GetTagKeysAsync(SystemConnectionConfiguration.InfluxDbConfiguration().DbName, measurementName);
 
         }
         public static Task<IEnumerable<TagValue>> GetTagValuesAsync(string measurementName, string tagName)
         {
-            var client = ServiceProvider.GetService<InfluxDbClient>();
+            var client = _influxDbClient;
             return client.Serie.GetTagValuesAsync(SystemConnectionConfiguration.InfluxDbConfiguration().DbName, measurementName,tagName);
 
         }

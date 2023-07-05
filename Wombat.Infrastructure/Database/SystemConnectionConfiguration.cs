@@ -1,5 +1,4 @@
-﻿using Autofac.Annotation;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
@@ -13,11 +12,9 @@ namespace Wombat.Infrastructure
     /// 程序配置信息映射类 appsettings.json
     /// </summary>
     /// 
-    [AutoConfiguration]
     public class SystemConnectionConfiguration
     {
 
-        [Bean]
         public static ConnectionStringsOptions ConnectionStrings()
         {
             return _connectionStrings;
@@ -25,7 +22,6 @@ namespace Wombat.Infrastructure
 
 
 
-        [Bean]
 
         public static InfluxDbOptions InfluxDbConfiguration()
         {

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Wombat.Core.DependencyInjection;
+using Wombat.Core;
 
 namespace Wombat.Infrastructure
 {
@@ -16,7 +18,7 @@ namespace Wombat.Infrastructure
         /// 在DI容器中注册所有的服务类型 
         /// </summary>
         /// <param name="services"></param>
-        public static void SimpleConfigureServices(IServiceCollection services, Assembly[] globalAssemblies = null, Func<IConfiguration,object> otherConfiguration = null)
+        public static void SimpleConfigureServices(IServiceCollection services, Func<IConfiguration,object> otherConfiguration = null, params string[] assemblyNames)
         {
 
             LogHelper.Build();
@@ -47,10 +49,9 @@ namespace Wombat.Infrastructure
 
             services.AddOptions();
 
+            services.DependencyInjectionService(assemblyNames);
 
-            //services.UseServiceProvider(SystemGlobal.AllAssemblies);
-
-            services.UseServiceProvider(globalAssemblies);
+            services.BuildServiceProvider().UseServiceProvider();
 
         }
 
