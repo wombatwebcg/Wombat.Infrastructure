@@ -15,67 +15,35 @@ namespace Wombat.Infrastructure
     public class SystemConnectionConfiguration
     {
 
-        public static ConnectionStringsOptions ConnectionStrings()
-        {
-            return _connectionStrings;
-        }
-
-
-
-
-        public static InfluxDbOptions InfluxDbConfiguration()
-        {
-            return _influxDbSetting;
-        }
-
-
-
-
         static ConnectionStringsOptions _connectionStrings;
         static InfluxDbOptions _influxDbSetting;
 
-        /// <summary>
-        /// 程序配置信息映射类
-        /// </summary>
-        /// <param name="configuration"></param>
-        /// 
-        public SystemConnectionConfiguration (IConfiguration configuration)
+        public SystemConnectionConfiguration(IConfiguration configuration)
         {
             _connectionStrings = configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStringsOptions>();
             _influxDbSetting = configuration.GetSection(nameof(InfluxDbConfiguration)).Get<InfluxDbOptions>();
+
         }
 
+        public static ConnectionStringsOptions ConnectionStrings
+        {
+            get { return _connectionStrings; }
+        }
+
+
+
+
+        public static InfluxDbOptions InfluxDbConfiguration
+        {
+            get { return _influxDbSetting; }
+        }
+
+
+
+
     }
 
 
-    /// <summary>
-    /// InfluxDb配置信息
-    /// </summary>
-    public class InfluxDbOptions
-    {
-
-        /// <summary>
-        /// 发行者
-        /// </summary>
-        public string Address { get; set; }
-
-        /// <summary>
-        /// 受众
-        /// </summary>
-        public string UserName { get; set; }
-        /// <summary>
-        /// 秘钥
-        /// </summary>
-        public string Password { get; set; }
-        /// <summary>
-        /// 过期时间
-        /// </summary>
-        public int AtInterval { get; set; }
-        /// <summary>
-        /// 刷新时间
-        /// </summary>
-        public string DbName { get; set; }
-    }
 
 
 

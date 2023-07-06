@@ -29,8 +29,8 @@ namespace Wombat.Infrastructure
             //    //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", optional: true, reloadOnChange:true)                             
             //    ;
             IConfiguration configuration = services.InjectionAppSettings();
+            configuration.UseConfigurationProvider();
             var appConfiguration = new SystemConnectionConfiguration(configuration);
-            services.AddSingleton(configuration);
             if (otherConfiguration != null)
             {
                 services.AddSingleton(otherConfiguration.Invoke(configuration));
@@ -45,7 +45,7 @@ namespace Wombat.Infrastructure
             });
 
             //注入freesql
-            services.AddFreeSql(SystemConnectionConfiguration.ConnectionStrings());
+            services.AddFreeSql(SystemConnectionConfiguration.ConnectionStrings);
 
             services.AddOptions();
 

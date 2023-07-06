@@ -7,7 +7,7 @@
     <Product>Wombat.Infrastructure</Product>
     <Description>通用基础库</Description>
     <Copyright>wombatwebcg</Copyright>
-    <Version>2.0.4</Version>
+    <Version>2.0.5</Version>
     <PackageProjectUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</PackageProjectUrl>
     <RepositoryUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
