@@ -7,7 +7,7 @@
     <Product>Wombat.Infrastructure</Product>
     <Description>通用基础库</Description>
     <Copyright>wombatwebcg</Copyright>
-    <Version>2.0.5</Version>
+    <Version>2.0.6</Version>
     <PackageProjectUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</PackageProjectUrl>
     <RepositoryUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -37,10 +37,8 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="FreeSql" Version="3.2.692" />
 		<PackageReference Include="FreeSql.DbContext" Version="3.2.692" />
+		<PackageReference Include="Wombat.Core" Version="1.0.5" />
 		<PackageReference Include="Wombat.Extensions.ObjectConversion" Version="1.0.3" />
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\..\Wombat\Wombat\Wombat.Core\Wombat.Core.csproj" />
 	</ItemGroup>
 
 </Project>

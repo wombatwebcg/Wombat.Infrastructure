@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Wombat.Core.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Wombat.Core;
 
 namespace Wombat.Infrastructure
@@ -28,8 +28,8 @@ namespace Wombat.Infrastructure
             //    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             //    //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", optional: true, reloadOnChange:true)                             
             //    ;
-            IConfiguration configuration = services.InjectionAppSettings();
-            configuration.UseConfigurationProvider();
+            IConfiguration configuration = services.AddAppSettings();
+            configuration.UseCustomConfigurationProvider();
             var appConfiguration = new SystemConnectionConfiguration(configuration);
             if (otherConfiguration != null)
             {
@@ -49,9 +49,9 @@ namespace Wombat.Infrastructure
 
             services.AddOptions();
 
-            services.InjectionService(assemblyNames);
+            services.AddServicesPoxy(assemblyNames);
 
-            services.BuildServiceProvider().UseServiceProvider();
+            services.BuildServiceProvider().UseCustomServiceProvider();
 
         }
 
