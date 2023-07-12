@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Wombat.Core.DependencyInjection;
 
+
 namespace Wombat.Infrastructure
 {
     /// <summary>
     /// 连接字符串配置
     /// </summary>
     /// 
+
     public class ConnectionStringsOptions
     {
         /// <summary>

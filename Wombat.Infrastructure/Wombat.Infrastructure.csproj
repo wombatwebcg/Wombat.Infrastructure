@@ -7,11 +7,11 @@
     <Product>Wombat.Infrastructure</Product>
     <Description>通用基础库</Description>
     <Copyright>wombatwebcg</Copyright>
-    <Version>2.0.7</Version>
+    <Version>2.0.8</Version>
     <PackageProjectUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</PackageProjectUrl>
     <RepositoryUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>infrastructure</PackageTags>
+    <PackageTags>Wombat.Infrastructure</PackageTags>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="7.0.0" />
