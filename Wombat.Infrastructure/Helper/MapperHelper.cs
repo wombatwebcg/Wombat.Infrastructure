@@ -16,7 +16,7 @@ namespace Wombat.Infrastructure
         /// <typeparam name="T2"></typeparam>
         /// <param name="t1"></param>
         /// <returns></returns>
-        public static T2 T1MapToT2<T1, T2>(T1 t1)
+        public static T2 MapTo<T1, T2>(T1 t1)
             where T1 : class
             where T2 : class //, new()
         {
@@ -50,59 +50,38 @@ namespace Wombat.Infrastructure
         }
 
         //这种写法和上面的写法没啥差别
-        public static T2 T1MapToT2_2<T1, T2>(T1 t1, T2 Target = null, string exceptAttribute = "" )
+        public static T2 MapTo<T1, T2>(T1 orgin, T2 target = null, params string[] filtter )
             where T1 : class
             where T2 : class //, new()
         {
-            if (Target==null)
+            if (target==null)
             {
-               Target = Activator.CreateInstance<T2>();  //T2 t2 = new T2(); //后面这种写法，要在 where 中添加 new()
+               target = Activator.CreateInstance<T2>();  //T2 t2 = new T2(); //后面这种写法，要在 where 中添加 new()
             }
-            var p1 = t1.GetType().GetProperties();
+            var p1 = orgin.GetType().GetProperties();
             var p2 = typeof(T2);
             for (int i = 0; i < p1.Length; i++)
             {
-                if (exceptAttribute == p1[i].Name) continue;
+
+                if (filtter.Contains(p1[i].Name)) continue;
 
                 //条件：1、属性名相同；2、t2属性可写；3、属性可读性一致；4、数据类型相近（相同，或者接近。接近如：int 和 int?）
                 var p = p2.GetProperty(p1[i].Name);
                 if (p == null || !p.CanWrite || p.CanRead != p1[i].CanRead)
                     continue;
-                var v = p1[i].GetValue(t1);
+                var v = p1[i].GetValue(orgin);
                 if (v == null)
                     continue;
-                try { p.SetValue(Target, Convert.ChangeType(v, p.PropertyType)); }
-                catch { }
-            }
-
-            return Target;
-        }
-
-
-        public static D T1MapToT2_3<D, S>(S s)
-        {
-            D d = Activator.CreateInstance<D>();
-            try
-            {
-                var sType = s.GetType();
-                var dType = typeof(D);
-                foreach (PropertyInfo sP in sType.GetProperties())
+                try { p.SetValue(target, Convert.ChangeType(v, p.PropertyType)); }
+                catch (Exception ex)
                 {
-                    foreach (PropertyInfo dP in dType.GetProperties())
-                    {
-                        if (dP.Name == sP.Name)
-                        {
-                            dP.SetValue(d, sP.GetValue(s)); break;
-                        }
-                    }
+                    throw ex;
                 }
             }
-            catch (Exception ex)
-            {
 
-            }
-            return d;
+            return target;
         }
+
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FreeSql;
 using FreeSql.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
@@ -16,14 +17,21 @@ namespace Wombat.Infrastructure
     public static class FreeSqlCoreModule
     {
         /// <summary>
-        /// 注册 仓储层
+        /// 添加FreeSql服务配置。
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="appConfiguration"></param>
-        /// <param name="assemblyFilter"></param>
-        /// <exception cref="Exception"></exception>
-        public static IServiceCollection AddFreeSql(this IServiceCollection services, ConnectionStringsOptions connectionStrings , string assemblyFilter = "KYDevicesServices.Repository")
+        /// <param name="services">服务集合。</param>
+        /// <param name="connectionStrings">连接字符串选项。</param>
+        /// <param name="isUseAutoSyncStructure">是否使用自动同步结构，默认为false。</param>
+        /// <param name="isUseLazyLoading">是否使用延迟加载，默认为false。</param>
+        /// <param name="nameConvert">名称转换类型，默认为NameConvertType.None。</param>
+        /// <param name="isUseNoneCommandParameter">是否使用非命令参数，默认为true。</param>
+        /// <param name="isUseExitAutoDisposePool">是否使用退出时自动释放连接池，默认为true。</param>
+        /// <param name="isUseMonitorCommand">是否使用命令监视器，默认为false。</param>
+        /// <returns>服务集合。</returns>
+        public static IServiceCollection AddFreeSql(this IServiceCollection services, ConnectionStringsOptions connectionStrings,
+            bool isUseAutoSyncStructure = false, bool isUseLazyLoading = false,NameConvertType nameConvert = NameConvertType.None, bool isUseNoneCommandParameter = true, bool isUseExitAutoDisposePool = true, bool isUseMonitorCommand = false)
         {
+
             var databaseType = connectionStrings.DefaultDatabaseType;
             var dataType = DataType.SqlServer;
             var connectionString = connectionStrings.DefaultSqlServer;
@@ -43,13 +51,13 @@ namespace Wombat.Infrastructure
                 connectionString = connectionStrings.DefaultPostgreSql;
                 dataType = DataType.PostgreSQL;
             }
-            if(databaseType == DefaultDatabaseType.Sqlite)
+            if (databaseType == DefaultDatabaseType.Sqlite)
             {
                 connectionString = connectionStrings.DefaultSqlite;
                 dataType = DataType.Sqlite;
 
             }
-            var freeSql = CreateFreeSql(connectionString, dataType);
+            var freeSql = CreateFreeSql(connectionString, dataType,isUseAutoSyncStructure,isUseLazyLoading,nameConvert,isUseNoneCommandParameter,isUseExitAutoDisposePool,isUseMonitorCommand);
 
             services.AddSingleton(freeSql);
 
@@ -64,23 +72,49 @@ namespace Wombat.Infrastructure
             return services;
         }
 
+
+        /// <summary>
+        /// 添加FreeSql服务配置。
+        /// </summary>
+        /// <param name="services">服务集合。</param>
+        /// <param name="connectionStrings">连接字符串选项。</param>
+        /// <param name="isUseAutoSyncStructure">是否使用自动同步结构，默认为false。</param>
+        /// <param name="isUseLazyLoading">是否使用延迟加载，默认为false。</param>
+        /// <param name="nameConvert">名称转换类型，默认为NameConvertType.None。</param>
+        /// <param name="isUseNoneCommandParameter">是否使用非命令参数，默认为true。</param>
+        /// <param name="isUseExitAutoDisposePool">是否使用退出时自动释放连接池，默认为true。</param>
+        /// <param name="isUseMonitorCommand">是否使用命令监视器，默认为false。</param>
+        /// <returns>服务集合。</returns>
+        public static IServiceCollection AddFreeSql(this IServiceCollection services, IConfiguration configuration, bool isUseAutoSyncStructure = false,
+            bool isUseLazyLoading = false, NameConvertType nameConvert = NameConvertType.None, bool isUseNoneCommandParameter = true, bool isUseExitAutoDisposePool = true, bool isUseMonitorCommand = false)
+        {
+            return AddFreeSql(services, configuration.GetSection("ConnectionStrings").Get<ConnectionStringsOptions>(),isUseAutoSyncStructure,isUseLazyLoading,nameConvert,isUseNoneCommandParameter
+               ,isUseExitAutoDisposePool,isUseMonitorCommand);
+        }
+
         /// <summary>
         /// 创建 free sql 对象
         /// </summary>
         /// <param name="connectionString"></param>
         /// <param name="dataType"></param>
         /// <returns></returns>
-        private static IFreeSql CreateFreeSql(string connectionString, DataType dataType)
+        private static IFreeSql CreateFreeSql(string connectionString, DataType dataType, bool isUseAutoSyncStructure = false, bool isUseLazyLoading = false,
+           NameConvertType nameConvert = NameConvertType.None, bool isUseNoneCommandParameter = true, bool isUseExitAutoDisposePool = true, bool isUseMonitorCommand = false)
         {
-            var freeSql = new FreeSqlBuilder()
-                .UseConnectionString(dataType, connectionString)          
-                .UseAutoSyncStructure(true)//自动迁移实体的结构到数据库
-                .UseLazyLoading(false)
-                .UseNameConvert(NameConvertType.None)
-                .UseNoneCommandParameter(true)
-                .UseExitAutoDisposePool(true)
-                //.UseMonitorCommand(cmd => Console.Write(cmd.CommandText))
-                .Build(); //请务必定义成 Singleton 单例模式
+            var freeSqlBuilder = new FreeSqlBuilder()
+                .UseConnectionString(dataType, connectionString)
+                .UseAutoSyncStructure(isUseAutoSyncStructure)//自动迁移实体的结构到数据库
+                .UseLazyLoading(isUseLazyLoading)
+                .UseNameConvert(nameConvert)
+                .UseNoneCommandParameter(isUseNoneCommandParameter)
+                .UseExitAutoDisposePool(isUseExitAutoDisposePool);
+
+            if (isUseMonitorCommand)
+            {
+                freeSqlBuilder.UseMonitorCommand(cmd => Console.Write(cmd.CommandText));
+            }
+
+            var freeSql = freeSqlBuilder.Build();
 
             // sql执行后
             freeSql.Aop.CurdAfter += (s, curdAfter) =>
@@ -95,6 +129,7 @@ namespace Wombat.Infrastructure
                     Log.Warning(stringBuilder.ToString());
                 }
             };
+
 
             // 审计属性值
             //freeSql.Aop.AuditValue += (s, auditInfo) =>
