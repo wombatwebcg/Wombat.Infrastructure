@@ -1,17 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using Wombat.Core.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Wombat.Core;
 
 namespace Wombat.Infrastructure
 {
-   public class InfrastructureTemplete
+    public class InfrastructureTemplete
     {
 
         /// <summary>
@@ -30,7 +24,8 @@ namespace Wombat.Infrastructure
             //    ;
             IConfiguration configuration = services.AddAppSettings();
             configuration.UseCustomConfigurationProvider();
-            var appConfiguration = new SystemConnectionConfiguration(configuration);
+            var  _connectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStringsOptions>();
+
             if (otherConfiguration != null)
             {
                 services.AddSingleton(otherConfiguration.Invoke(configuration));
@@ -45,7 +40,7 @@ namespace Wombat.Infrastructure
             });
 
             //注入freesql
-            services.AddFreeSql(SystemConnectionConfiguration.ConnectionStrings);
+            services.AddFreeSql(_connectionStrings);
 
             services.AddOptions();
 

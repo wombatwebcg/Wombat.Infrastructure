@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Wombat.Core.DependencyInjection;
+
 
 
 namespace Wombat.Infrastructure
