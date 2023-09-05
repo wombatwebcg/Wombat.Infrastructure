@@ -12,7 +12,7 @@ namespace Wombat.Infrastructure
     /// <summary>
     /// 日志工具
     /// </summary>
-    public static class LogHelper
+    public static class SerilogHelper
     {
         static string LogFilePath(string LogEvent) =>
             $@"{AppDomain.CurrentDomain.BaseDirectory}/AppLogs/{DateTime.Now.Year}/{DateTime.Now.Month}_{DateTime.Now.Day}/{LogEvent}/.log";

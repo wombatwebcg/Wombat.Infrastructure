@@ -15,7 +15,7 @@ namespace Wombat.Infrastructure
         public static void SimpleConfigureServices(IServiceCollection services, Func<IConfiguration,object> otherConfiguration = null, params string[] assemblyNames)
         {
 
-            LogHelper.Build();
+            SerilogHelper.Build();
             ////register configuration
             //IConfigurationBuilder cfgBuilder = new ConfigurationBuilder()
             //    .SetBasePath(Directory.GetCurrentDirectory())
@@ -36,7 +36,7 @@ namespace Wombat.Infrastructure
             //register logger
             services.AddLogging(build =>
             {
-                object p = build.AddSerilog(logger: LogHelper.Log);
+                object p = build.AddSerilog(logger: SerilogHelper.Log);
             });
 
             //注入freesql
@@ -44,7 +44,7 @@ namespace Wombat.Infrastructure
 
             services.AddOptions();
 
-            services.AddServicesPoxy(assemblyNames);
+            services.AddServices(assemblyNames);
 
             services.BuildServiceProvider().UseCustomServiceProvider();
 
@@ -53,7 +53,7 @@ namespace Wombat.Infrastructure
         public static void SimpleConfigureServicesDebug(IServiceCollection services, Func<IConfiguration, object> otherConfiguration = null, params string[] assemblyNames)
         {
 
-            LogHelper.Build();
+            SerilogHelper.Build();
             ////register configuration
             //IConfigurationBuilder cfgBuilder = new ConfigurationBuilder()
             //    .SetBasePath(Directory.GetCurrentDirectory())
@@ -74,7 +74,7 @@ namespace Wombat.Infrastructure
             //register logger
             services.AddLogging(build =>
             {
-                object p = build.AddSerilog(logger: LogHelper.Log);
+                object p = build.AddSerilog(logger: SerilogHelper.Log);
             });
 
             //注入freesql
@@ -82,7 +82,7 @@ namespace Wombat.Infrastructure
 
             services.AddOptions();
 
-            services.AddServicesPoxy(assemblyNames);
+            services.AddServices(assemblyNames);
 
             services.BuildServiceProvider().UseCustomServiceProvider();
 
