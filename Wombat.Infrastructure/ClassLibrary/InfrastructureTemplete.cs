@@ -16,12 +16,6 @@ namespace Wombat.Infrastructure
         {
 
             SerilogHelper.Build();
-            ////register configuration
-            //IConfigurationBuilder cfgBuilder = new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            //    //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", optional: true, reloadOnChange:true)                             
-            //    ;
             IConfiguration configuration = services.AddAppSettings();
             configuration.UseCustomConfigurationProvider();
             var  _connectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStringsOptions>();
@@ -54,14 +48,10 @@ namespace Wombat.Infrastructure
         {
 
             SerilogHelper.Build();
-            ////register configuration
-            //IConfigurationBuilder cfgBuilder = new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            //    //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", optional: true, reloadOnChange:true)                             
-            //    ;
             IConfiguration configuration = services.AddAppSettings();
+
             configuration.UseCustomConfigurationProvider();
+
             var _connectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStringsOptions>();
 
             if (otherConfiguration != null)
