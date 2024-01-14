@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Wombat.Extensions.DataTypeExtensions;
 
 namespace Wombat.Infrastructure
 {
@@ -464,12 +465,12 @@ namespace Wombat.Infrastructure
         public void SetEntity(int index,T t)
         {
             int offset = index*entityLength;
-            Write(t.EntityToJson().ToBytes(), offset);
+            Write(t.ToJson().ToBytes(), offset);
         }
 
         public T GetEntity(int index)
         {
-            return Read(entityLength, index * entityLength).ToString(System.Text.Encoding.UTF8).ToEntity<T>();
+            return Read(entityLength, index * entityLength).ToString(System.Text.Encoding.UTF8).ToObject<T>();
         }
     }
 }

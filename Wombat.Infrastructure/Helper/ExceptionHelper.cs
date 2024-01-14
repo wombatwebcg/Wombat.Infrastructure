@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-
+using Wombat.Extensions.DataTypeExtensions;
 
 namespace Wombat.Infrastructure
 {
