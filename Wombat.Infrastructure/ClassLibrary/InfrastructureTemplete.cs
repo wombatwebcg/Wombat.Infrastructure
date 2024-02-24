@@ -2,6 +2,7 @@
 using Serilog;
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using Wombat.DependencyInjection;
 
 namespace Wombat.Infrastructure
 {
