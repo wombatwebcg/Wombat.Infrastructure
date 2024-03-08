@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 namespace Wombat.Infrastructure
 {
@@ -53,7 +55,7 @@ namespace Wombat.Infrastructure
 
 
 
-        public static List<T> ToList<T>()
+        public static List<T> ToList<T>() where T:Enum
         {
             List<T> dataCalibrationCoreTypes = new List<T>();
             foreach (T item in Enum.GetValues(typeof(T)))
@@ -64,5 +66,56 @@ namespace Wombat.Infrastructure
         }
 
 
+        public static List<string> ToDescriptionList<T>() where T : Enum
+        {
+            Type enumType = typeof(T);
+
+            return Enum.GetValues(enumType)
+                       .Cast<Enum>()
+                       .Select(value =>
+                       {
+                           string name = Enum.GetName(enumType, value);
+                           FieldInfo field = enumType.GetField(name);
+
+                           if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+                           {
+                               return attribute.Description;
+                           }
+                           else
+                           {
+                               return name;
+                           }
+                       }).ToList();
+        }
+
+
+        /// <summary>
+        /// 通过枚举描述获取枚举值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        public static T GetEnumValueFromDescription<T>(string description) where T : Enum
+        {
+            foreach (FieldInfo field in typeof(T).GetFields())
+            {
+                if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+                {
+                    if (attribute.Description == description)
+                    {
+                        return (T)field.GetValue(null);
+                    }
+                }
+                else
+                {
+                    if (field.Name == description)
+                    {
+                        return (T)field.GetValue(null);
+                    }
+                }
+            }
+
+            throw new ArgumentException($"Enum value with description '{description}' not found.", nameof(description));
+        }
     }
 }
