@@ -95,7 +95,7 @@ namespace Wombat.Infrastructure
         /// <typeparam name="T"></typeparam>
         /// <param name="description"></param>
         /// <returns></returns>
-        public static T GetEnumValueFromDescription<T>(string description) where T : Enum
+        public static T GetEnumValueFromDescription<T>(string description) where T : struct,Enum
         {
             foreach (FieldInfo field in typeof(T).GetFields())
             {
@@ -117,5 +117,27 @@ namespace Wombat.Infrastructure
 
             throw new ArgumentException($"Enum value with description '{description}' not found.", nameof(description));
         }
+
+        /// <summary>
+        /// 通过枚举名称获取枚举值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static T GetEnumValueFromName<T>(string name) where T : struct,  Enum ,IConvertible
+        {
+            if (!typeof(T).IsEnum)
+            {
+                throw new ArgumentException($"Type {typeof(T)} is not an enum");
+            }
+
+            if (Enum.TryParse(name, out T result) )
+            {
+                return result;
+            }
+
+            throw new ArgumentException($"Enum value with name '{name}' not found.", nameof(name));
+        }
+
     }
 }
