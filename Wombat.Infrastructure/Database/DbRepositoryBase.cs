@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Wombat.Infrastructure
 {
-    public abstract class IDBRepository<T> where T : class, new()
+    public abstract class DbRepositoryBase<T> where T : class, new()
     {
         #region 构造函数
 
@@ -17,7 +17,7 @@ namespace Wombat.Infrastructure
         /// 构造函数
         /// </summary>
         /// <param name="db">注入数据库</param>
-        public IDBRepository(IFreeSql db)
+        public DbRepositoryBase(IFreeSql db)
         {
             Db = db;
         }
@@ -388,7 +388,7 @@ namespace Wombat.Infrastructure
         ///// <returns>影响条数</returns>
         //public int UpdateSql(Expression<Func<T, bool>> where, params (string field, object value)[] values)
         //{
-        //    return Db.Select<T>().Where(where).WithSql(values).ToUpdate().ExecuteAffrows();
+        //    return Db.Select<T>().Where(where).WithSql(values.).ToUpdate().ExecuteAffrows();
         //}
 
         ///// <summary>

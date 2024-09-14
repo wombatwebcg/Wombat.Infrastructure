@@ -33,6 +33,8 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="FreeSql" Version="3.2.812" />
 		<PackageReference Include="FreeSql.DbContext" Version="3.2.812" />
-		<PackageReference Include="Wombat.Extensions.DataTypeExtensions" Version="1.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Wombat.Extensions.DataTypeExtensions\Wombat.Extensions.DataTypeExtensions\Wombat.Extensions.DataTypeExtensions\Wombat.Extensions.DataTypeExtensions.csproj" />
 	</ItemGroup>
 </Project>
