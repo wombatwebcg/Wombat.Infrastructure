@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Wombat.Infrastructure
 {
-    public abstract class DbRepositoryBase<T> where T : class, new()
+    public abstract class DBRepositoryBase<T> where T : class, new()
     {
         #region 构造函数
 
@@ -17,7 +17,7 @@ namespace Wombat.Infrastructure
         /// 构造函数
         /// </summary>
         /// <param name="db">注入数据库</param>
-        public DbRepositoryBase(IFreeSql db)
+        public DBRepositoryBase(IFreeSql db)
         {
             Db = db;
         }
