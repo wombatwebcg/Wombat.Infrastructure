@@ -15,13 +15,13 @@ namespace Wombat.Infrastructure
             try
             {
                 if (compressedData == null || compressedData.Length < 2 || !IsValidGZip(compressedData))
-                    return string.Empty; // 无效数据直接返回空字符串
+                    return string.Empty;
 
                 using (var memoryStream = new MemoryStream(compressedData))
                 using (var gzipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
                 using (var resultStream = new MemoryStream())
                 {
-                    byte[] buffer = new byte[8192];
+                    byte[] buffer = new byte[compressedData.Length]; // 动态分配大小
                     int bytesRead;
                     while ((bytesRead = gzipStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
@@ -32,7 +32,7 @@ namespace Wombat.Infrastructure
             }
             catch
             {
-                return string.Empty; // 遇到任何异常时返回空字符串
+                return string.Empty;
             }
         }
 
