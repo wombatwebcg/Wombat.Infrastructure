@@ -21,51 +21,30 @@ namespace Wombat.Infrastructure
         /// <summary>
         /// 启动
         /// </summary>
-        public static void Build()
+        public static void Build(params LogEventLevel[] levelsToFile)
         {
             if (_instance == null)
             {
                 _instance = new object();
-                var now = DateTime.Now;
                 var logger = new LoggerConfiguration()
                     .Enrich.With(new DateTimeNowEnricher())
-                    .MinimumLevel.Debug()//最小记录级别
-                    .Enrich.FromLogContext()//记录相关上下文信息 
-                    .MinimumLevel.Override(nameof(Microsoft), LogEventLevel.Debug)//对其他日志进行重写,除此之外,目前框架只有微软自带的日志组件
+                    .MinimumLevel.Debug()
+                    .Enrich.FromLogContext()
+                    .MinimumLevel.Override(nameof(Microsoft), LogEventLevel.Debug)
                     .WriteTo.Console();
 
-                Serilog.Log.Logger = logger
-                    .WriteTo.Logger(lg =>
+                var logConfig = logger;
+
+                foreach (var level in levelsToFile.Distinct())
+                {
+                    logConfig = logConfig.WriteTo.Logger(lg =>
                     {
-                        lg.Filter
-                        .ByIncludingOnly(p => p.Level == LogEventLevel.Debug)
-                        .WriteTo.File(LogFilePath(nameof(LogEventLevel.Debug)), rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
-                    })
-                    .WriteTo.Logger(lg =>
-                    {
-                        lg.Filter
-                        .ByIncludingOnly(p => p.Level == LogEventLevel.Information)
-                        .WriteTo.File(LogFilePath(nameof(LogEventLevel.Information)), rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
-                    })
-                    .WriteTo.Logger(lg =>
-                    {
-                        lg.Filter
-                        .ByIncludingOnly(p => p.Level == LogEventLevel.Warning)
-                        .WriteTo.File(LogFilePath(nameof(LogEventLevel.Warning)), rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
-                    })
-                    .WriteTo.Logger(lg =>
-                    {
-                        lg.Filter
-                        .ByIncludingOnly(p => p.Level == LogEventLevel.Error)
-                        .WriteTo.File(LogFilePath(nameof(LogEventLevel.Error)), rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
-                    })
-                    .WriteTo.Logger(lg =>
-                    {
-                        lg.Filter
-                        .ByIncludingOnly(p => p.Level == LogEventLevel.Fatal)
-                        .WriteTo.File(LogFilePath(nameof(LogEventLevel.Fatal)), rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
-                    })
-                    .CreateLogger();
+                        lg.Filter.ByIncludingOnly(p => p.Level == level)
+                          .WriteTo.File(LogFilePath(level.ToString()), rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
+                    });
+                }
+
+                Serilog.Log.Logger = logConfig.CreateLogger();
             }
         }
 

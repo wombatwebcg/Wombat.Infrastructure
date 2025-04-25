@@ -7,7 +7,7 @@
     <Product>Wombat.Infrastructure</Product>
     <Description>通用基础库</Description>
     <Copyright>wombatwebcg</Copyright>
-    <Version>2.0.21</Version>
+    <Version>2.0.22</Version>
     <PackageProjectUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</PackageProjectUrl>
     <RepositoryUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -21,7 +21,7 @@
 		<PackageReference Include="QRCoder" Version="1.4.3" />
 		<PackageReference Include="Quartz" Version="3.8.1" />
 		<PackageReference Include="System.IO.Ports" Version="7.0.0" />
-		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.8" />
+		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.2" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
 		<PackageReference Include="NPOI" Version="2.6.2" />
 		<PackageReference Include="Serilog" Version="3.1.1" />
@@ -33,8 +33,6 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="FreeSql" Version="3.2.812" />
 		<PackageReference Include="FreeSql.DbContext" Version="3.2.812" />
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\..\Wombat.Extensions.DataTypeExtensions\Wombat.Extensions.DataTypeExtensions\Wombat.Extensions.DataTypeExtensions\Wombat.Extensions.DataTypeExtensions.csproj" />
+		<PackageReference Include="Wombat.Extensions.DataTypeExtensions" Version="1.0.10" />
 	</ItemGroup>
 </Project>
