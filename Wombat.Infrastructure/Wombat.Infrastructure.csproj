@@ -1,20 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <Authors>wombatwebcg</Authors>
     <Company>wombatwebcg</Company>
     <Product>Wombat.Infrastructure</Product>
     <Description>通用基础库</Description>
     <Copyright>wombatwebcg</Copyright>
-    <Version>2.0.22</Version>
+    <Version>2.0.23</Version>
     <PackageProjectUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</PackageProjectUrl>
     <RepositoryUrl>https://github.com/wombatwebcg/Wombat.Infrastructure</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Wombat.Infrastructure</PackageTags>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="10.1.1" />
 		<PackageReference Include="ExcelReport" Version="3.1.6" />
 		<PackageReference Include="InfluxData.Net" Version="8.0.1" />
 		<PackageReference Include="NPOI.Extend" Version="1.1.3" />
@@ -31,8 +30,6 @@
 		<PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="FreeSql" Version="3.2.812" />
-		<PackageReference Include="FreeSql.DbContext" Version="3.2.812" />
 		<PackageReference Include="Wombat.Extensions.DataTypeExtensions" Version="1.0.10" />
 	</ItemGroup>
 </Project>

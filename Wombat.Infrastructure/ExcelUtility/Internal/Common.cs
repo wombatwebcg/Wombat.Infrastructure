@@ -115,7 +115,7 @@ namespace Wombat.Infrastructure
         /// <param name="isCompatible"></param>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public static IWorkbook CreateWorkbook(bool isCompatible, dynamic stream)
+        public static IWorkbook CreateWorkbook(bool isCompatible, Stream stream)
         {
             if (isCompatible)
             {
